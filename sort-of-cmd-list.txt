@@ -1,6 +1,6 @@
-docker run --rm -it --user root -v "$(pwd)":/workdir -w /workdir anga93/gvsoc-container:arm64
+docker run --rm -it --user root -v "$(pwd)":/workdir -w /workdir mcai/gvsoc-container-x86:latest
 docker --version
 docker images
-docker push anga93/gvsoc-container:arm64
-docker image tag agar/gvsoc-container:latest anga93/gvsoc-container:arm64
-docker build -t agar/gvsoc-container -f Dockerfile.arm64 .
+docker push mcai/gvsoc-container-x86:latest
+docker image mcai/gvsoc-container-x86:latest mcai/gvsoc-container-x86:latest
+docker build -t mcai/gvsoc-container-x86 -f Dockerfile.x86 .
