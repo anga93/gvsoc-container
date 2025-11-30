@@ -41,8 +41,8 @@ ENV LC_ALL=en_US.UTF-8
 WORKDIR /main_folder
 
 # Clone GVSOC
-RUN git clone https://github.com/anga93/gvsoc gvsoc-2
-RUN cd gvsoc-2 && \
+RUN git clone https://github.com/gvsoc/gvsoc.git gvsoc-01
+RUN cd gvsoc-01 && \
 git submodule update --init --recursive -j 8
 
 # INSTALL PYTHON deps
@@ -50,8 +50,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --allow-unauthenticated python3 python3-venv
 RUN python3 -m venv gvsoc-venv
 ENV PATH="/main_folder/gvsoc-venv/bin:$PATH"
-RUN cd gvsoc-2; pip install -r core/requirements.txt
-RUN cd gvsoc-2; pip install -r gapy/requirements.txt
+RUN cd gvsoc-01; pip install -r core/requirements.txt
+RUN cd gvsoc-01; pip install -r gapy/requirements.txt
 RUN pip install torch
 RUN pip install torch onnx mako
 RUN pip install argcomplete
@@ -61,8 +61,8 @@ RUN pip install jsonschema
 #RUN pip install pydantic
 
 # INSTALL GVSoC
-RUN cd gvsoc-2; make all TARGETS=pulp-open
-ENV PATH="/main_folder/gvsoc-2/install/bin:$PATH"
+RUN cd gvsoc-01; make all TARGETS=spatz
+ENV PATH="/main_folder/gvsoc-01/install/bin:$PATH"
 
 # Install GCC Deps
 RUN DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends --allow-unauthenticated \
@@ -89,5 +89,5 @@ RUN cd pulp-riscv-gnu-toolchain; make
 
 ## prepare environment
 ENV PULP_RISCV_GCC_TOOLCHAIN=/main_folder/riscv-gcc
-ENV PATH="/main_folder/gvsoc-2/install/bin:$PATH"
+ENV PATH="/main_folder/gvsoc-01/install/bin:$PATH"
 ENTRYPOINT [ "/bin/bash" ]
